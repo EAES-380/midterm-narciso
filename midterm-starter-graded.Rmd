@@ -1,0 +1,140 @@
+---
+title: "EAES 380 Midterm"
+author: "Mo Narciso"
+date: "10/27/26"
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+---
+
+> GM Graded 39/40 - Great work, Mo! Please see the comments and full solutions below to understand where you dropped points.
+
+# Academic integrity and honor code
+
+By completing and submitting this exam, I certify that:
+
+- I completed the submitted work myself.
+- I did not use generative AI (including ChatGPT, Claude, Gemini, Copilot, Grok, or similar tools) to generate, debug, revise, or interpret code or written answers for this exam.
+- I did not communicate with or gain information from classmates, and I did not copy work from past assignments.
+- I may use course materials, lecture notes, R documentation/help files, and other resources explicitly approved by the instructors.
+- I understand that I am responsible for being able to explain all code and written work that I submit.
+
+**Name:** Mo Narciso  
+**Signature:** Mo Narciso  
+**Date:** 10/28/26
+
+# Before you begin
+
+Work through the exercises using `midterm-instructions.Rmd` as your guide. Keep **all submitted code in this file** and Knit frequently.
+
+Ask Dr. Gavin McNicol or TA Kayode Ayegbusi if you are still stuck after checking spelling, parentheses, and Knit errors.
+
+# Load packages
+
+```{r load-packages, eval = FALSE, message = FALSE, warning = FALSE}
+library(tidyverse)
+library(palmerpenguins)
+```
+
+# Exercises
+
+## Exercise 1 — Glimpse and describe (5 points)
+
+**Goal:** Inspect the size and variable types of `penguins`.
+
+```{r glimpse-penguins, eval = FALSE}
+glimpse(penguins)
+```
+
+> There are 344 rows and 8 variables. There are 3 categorical variables and 5 numerical variables.
+
+## Exercise 2 — Variable names (5 points)
+
+**Goal:** Explain why the column names are “good.”
+
+```{r names-penguins, eval = FALSE}
+names(penguins)
+```
+
+> The column names are good names in R syntax because it is in snake case, which means its all in lowercase and any spaces use underscore.
+
+## Exercise 3 — Count by species (5 points)
+
+**Goal:** Produce a frequency table.
+
+```{r count-species, eval = FALSE}
+penguins %>%
+count(species)
+```
+
+> You can also use group_by() and summarize().
+
+## Exercise 4 — Bar plot by island and species (5 points)
+
+**Goal:** Visualize counts by island, filled by species, and report where each species was observed.
+
+```{r visualize-penguin-island-species, eval = FALSE}
+penguins %>% 
+  ggplot(aes(x = island, fill = species)) +
+  geom_bar() +
+  theme_classic()
+```
+
+> The species were observed at Biscoe, Dream, and Togersen.
+
+> GM -1 You list the islands but not which species was observed at each. A full answer would be: Adelie on Biscoe, Dream, and Torgersen; Chinstrap on Dream only; Gentoo on Biscoe only.
+
+## Exercise 5 — Scatter plot of body mass and flipper length (5 points)
+
+**Goal:** Visualize the relationship and note a species difference.
+
+```{r visualize-penguin-body-mass, eval = FALSE}
+penguins %>% 
+  ggplot(aes(x = body_mass_g, y = flipper_length_mm, color = species, shape = species)) +
+  geom_point() +
+  theme_classic()
+```
+
+> There seems to be a positive correlation between the two variables. The Gentoo penguins have generally higher flipper lengths and body masses than the other species.
+
+## Exercise 6 — Select, filter to one species, and assign (10 points)
+
+**Goal:** Build a species-specific subset of flipper length and the categorical variables.
+
+```{r species-subset, eval = FALSE}
+species_subset <- penguins %>%
+  select(flipper_length_mm, species, island, sex) %>%
+  filter(species == "Gentoo")
+```
+
+## Exercise 7 — Explain sex order and re-level (5 points)
+
+**Goal:** Explain alphabetical factor order and correct it.
+
+```{r visualize-penguin-flipper-length, eval = FALSE}
+penguins %>% 
+  ggplot(aes(x = sex, y = flipper_length_mm)) +
+  geom_violin() +
+  theme_classic()
+```
+
+> Female is on the left, male is in the middle, and NA is on the right. This is because sex is a factor variable, which has two components: the integer level and the label. The factor labels are sorted by aphabetical order by default.
+
+```{r recode-sex-levels, eval = FALSE}
+penguins %>% 
+  filter(!is.na(sex)) %>% 
+  mutate(sex = fct_relevel(sex, "male", "female")) %>% 
+  ggplot(aes(x = sex, y = flipper_length_mm)) +
+  geom_violin() +
+  theme_classic()
+```
+
+# Submission checklist
+
+- [x] I signed the academic-integrity statement.
+- [x] My name and date are correct in the YAML.
+- [x] I answered every requested question in complete sentences.
+- [x] All required code is in this file.
+- [x] This document Knits without errors.
+- [x] I committed and pushed my final changes to GitHub.
