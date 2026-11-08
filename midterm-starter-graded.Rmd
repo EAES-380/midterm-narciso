@@ -7,7 +7,7 @@ output:
     toc: true
     toc_depth: 2
 ---
-
+> GM Graded 39/40 - Excellent work, Mo!
 > GM Graded 39/40 - Great work, Mo! Please see the comments and full solutions below to understand where you dropped points.
 
 # Academic integrity and honor code
